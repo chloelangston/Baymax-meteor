@@ -1,0 +1,68 @@
+<head>
+    <title>Injuries/Illnesses</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+</head>
+
+<body>
+{{> loginButtons}}
+{{> buttons}}
+<div class="container">
+    {{> Template.dynamic template = currentPage }}
+</div>
+</body>
+
+<template name="bigMax">
+
+</template>
+
+<template name="form">
+    <div class="new-illness-container">
+        <div class="smaller-container">
+            <form class="pure-form-stacked pure-form">
+                <input type="text" name="bodyPart" placeholder="Where is your illness?" />
+                <input type="number" name="painLevel" placeholder="Pain level from 1-10" />
+                <input type="text" name="description" placeholder="Description" />
+                <input type="number" name="lengthInDays" placeholder="For how many days?" />
+                <input type="submit" name="submit" value="Add Illness" />
+                <input type="button" name="search" value="Search" />
+            </form>
+        </div>
+    </div>
+</template>
+
+<template name="illnessList">
+<!--{{#if isOwner}}-->
+    {{#each illnesses}}
+        {{> illness}}
+    {{/each}}
+        <!--{{/if}}-->
+</template>
+
+<template name="illness">
+    <header>
+        <h1>Injuries/Illnesses</h1>
+    </header>
+    <li class="{{#if checked}}checked{{/if}}">
+        <button class="delete">&times;</button>
+
+        <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+
+        <span class="text">Pain: {{bodyPart}}</span>
+    </li>
+    <li>Level: {{painLevel}}</li>
+    <li>Description: {{description}}</li>
+    <li>Length: {{lengthInDays}} days</li>
+    <li>{{createdAt}}</li>
+</template>
+
+<template name="home">
+    This is where Baymax will be!
+</template>
+
+<template name="buttons">
+    <ul class="routes">
+        <li><button class="clickChangesPage" data-page='form'>Form</button></li>
+        <li><button class="clickChangesPage" data-page='illnessList'>Illnesses</button></li>
+        <li><button class="clickChangesPage" data-page='home'>Home</button></li>
+    </ul>
+</template>
