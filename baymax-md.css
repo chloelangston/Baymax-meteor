@@ -17,6 +17,15 @@ body {
     font-size: 14px;
 }
 
+.test {
+    border:1px solid;
+    background:#ff9999;
+    width:500px;
+    height:500px;
+    display:none;
+    position:absolute;
+}
+
 .container {
     max-width: 700px;
     margin: 0 auto;
