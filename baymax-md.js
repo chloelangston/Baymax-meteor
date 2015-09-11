@@ -1,7 +1,13 @@
 Illnesses = new Mongo.Collection("illnesses");
 
 
-
+//$(".stomache").click(function(){
+//  $(".stomache").hide();
+//});
+//
+//$(".stomache").click(function(){
+//  $(".stomache").show();
+//});
 
 if (Meteor.isClient) {
   Meteor.subscribe("illnesses");
@@ -9,6 +15,8 @@ if (Meteor.isClient) {
   Session.setDefault('page', 'home');
   Session.setDefault('search', 'true');
   Session.set('glenn',"Your mom makes delicious meatloaf");
+  Session.setDefault('processingSketch1', 'true');
+  Session.setDefault('bodyPartSelected', 'chest');
 
   // This code only runs on the client
   Template.body.helpers({
@@ -19,16 +27,67 @@ if (Meteor.isClient) {
       return Session.get('search');
     },
     glenn:function(){
-      return Session.get('glenn')
+      return Session.get('glenn');
+    },
+    processingSketch1: function(){
+      return Session.get('processingSketch1');
     }
+    //email: function(){
+    //  return Meteor.user().email;
+    //}
   });
+
+  Template.body.events({
+    'submit .name': function(event){
+      event.preventDefault();
+      var name = event.tartget.text.value;
+    }
+  })
+
+  Template.bodyPartsLayer.helpers({
+
+  })
+
+  Template.bodyPartsLayer.events({
+    'click .head': function(event, template){
+      template.$('.head').css('opacity', 1);
+      Session.set('bodyPartSelected', 'head');
+    },
+    'click .chest': function(event, template){
+      template.$('.chest').css('opacity', 1);
+      Session.set('bodyPartSelected', 'chest');
+    },
+    'click .stomache': function(event, template){
+      template.$('.stomache').css('opacity', 1);
+      Session.set('bodyPartSelected', 'stomache');
+    },
+    'click .arm1': function(event, template){
+      template.$('.arm1').css('opacity', 1);
+      Session.set('bodyPartSelected', 'arm1');
+    },
+    'click .arm2': function(event, template){
+      template.$('.arm2').css('opacity', 1);
+      Session.set('bodyPartSelected', 'arm2');
+    },
+    'click .leg': function(event, template){
+      template.$('.leg').css('opacity', 1);
+      Session.set('bodyPartSelected', 'leg');
+    }
+  })
 
   Template.buttons.events({
     'click.button.clickChangesPage': function(event, template){
       Session.set('page', event.currentTarget.getAttribute('data-page'));
+      Session.set('processingSketch1', 'false');
       console.log(template);
     }
   });
+
+  Template.home.helpers({
+    email: function(){
+      return Meteor.user().email;
+    }
+  })
 
   Template.illnessList.helpers({
     illnesses: function(){
@@ -59,6 +118,9 @@ if (Meteor.isClient) {
   Template.form.helpers({
     result: function(){
       return Session.get('webMdResponse') || "";
+    },
+    bodyPartSelected: function(){
+      return Session.get('bodyPartSelected') || "";
     }
   })
 
@@ -76,6 +138,8 @@ if (Meteor.isClient) {
         Session.set('webMdResponse', response);
 
         console.log(Session.get('webMdResponse'));
+        console.log('webMdResponse');
+        console.log('getMdInfo');
       })//end Meteor.call
       console.log(pillow);
     },
@@ -129,7 +193,9 @@ if (Meteor.isServer) {
     //searchTerm = 'headache';
     Meteor.methods({
       getMdInfo: function(searchTerm) {
-        var url = 'http://www.webmd.com/search/search_results/default.aspx?query=headache';
+        var mdInfo;
+        var searchTerm = 'headache';
+        var url = 'http://www.webmd.com/search/search_results/default.aspx?query=' + searchTerm;
         HTTP.call('GET', url, {}, function (error, response) {
           console.log(error);
           console.log(Object.keys(response));
@@ -144,15 +210,16 @@ if (Meteor.isServer) {
             var body2 = response.content;
             //console.log(body2);
             $ = cheerio.load(body2);
-            var mdInfo = $('.teaser_fmt').text();
+            mdInfo = $('.teaser_fmt').text();
             //logging headache info right below
-            console.log(mdInfo);
+            //console.log(mdInfo);
             console.log('glenn was here too')
             return mdInfo;
 
           })
 
         })
+        return mdInfo;
       },
       addIllness: function (bodyPart, painLevel, description, lengthInDays) {
         // Make sure the user is logged in before inserting a task

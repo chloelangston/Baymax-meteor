@@ -2,14 +2,36 @@
     <title>Injuries/Illnesses</title>
     
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-{{> loginButtons}}
+<!--<form class="name">-->
+    <!--<input type="text" id="pacient_name" placeholder="enter your name..."/>-->
+<!--</form>-->
 
-{{> processingSketch}}
+
+{{> loginButtons}}
 {{> buttons}}
-Glenn: {{glenn}}
+<div class="hi">
+    {{#if currentUser}}
+        <div class="hi-word">Hi<strong>{{email}}</strong></div>
+        <div class="how"> How are you feeling?</div>
+    {{/if}}
+</div>
+
+{{> bodyPartsLayer}}
+
+<div class="processing-sketch">
+    {{#if processingSketch1}}
+        {{> processingSketch}}
+    {{/if}}
+    <!--{{#if currentPage = 'form'}}-->
+
+    <!--{{/if}}-->
+</div>
+
+
 
 <div class="container">
     {{> Template.dynamic template = currentPage }}
@@ -24,6 +46,10 @@ Glenn: {{glenn}}
     <canvas id="mysketch" data-processing-sources="baymax_shapes.pde"></canvas>
 </template>
 
+<template name="processingSketch2">
+    <canvas id="mysketch" data-processing-sources="baymax_shapes_2.pde"></canvas>
+</template>
+
 
 <template name="bigMax">
 
@@ -33,21 +59,23 @@ Glenn: {{glenn}}
     <div class="new-illness-container">
         <div class="smaller-container">
             <form class="pure-form-stacked pure-form">
-                <input type="text" name="bodyPart" placeholder="Where is your illness?" />
+                <input type="text" name="bodyPart" placeholder="Where is your illness?" value="{{bodyPartSelected}}" />
                 <input type="number" name="painLevel" placeholder="Pain level from 1-10" />
                 <input type="text" name="description" placeholder="Description" />
                 <input type="number" name="lengthInDays" placeholder="For how many days?" />
                 <input type="submit" name="submit" value="Add Illness" />
-                <input type="button" name="search" value="Search" />
+                <!--<input type="button" name="search" value="Search" />-->
             </form>
         </div>
         <!--{{#if ifSearch}}-->
             <!--{{result}}-->
         <!--{{/if}}-->
-        <h1>passing data to server method</h1>
-        <span>Name: </span><input type="text" value="Nachiket"/>
-        <input id="webButton" type="button" value="Call" />
-        <div id="passDataResult">{{result}}</div>
+        <div class="webSearchContainer">
+            <h1 class="searchWebMd">Search WebMD</h1>
+            <span>Name: </span><input type="text" value="{{bodyPartSelected}}" placeholder="What's your pain?"/>
+            <input id="webButton" type="button" value="Search" />
+            <div id="passDataResult">{{result}}</div>
+        </div>
     </div>
 </template>
 
@@ -60,8 +88,9 @@ Glenn: {{glenn}}
 </template>
 
 <template name="illness">
+    <div class="illness-list">
     <header>
-        <h1>Injuries/Illnesses</h1>
+        <h1>Injury/Illness</h1>
     </header>
     <li class="{{#if checked}}checked{{/if}}">
         <button class="delete">&times;</button>
@@ -74,17 +103,43 @@ Glenn: {{glenn}}
     <li>Description: {{description}}</li>
     <li>Length: {{lengthInDays}} days</li>
     <li>{{createdAt}}</li>
+    </div>
 </template>
 
 <template name="home">
-    This is where Baymax will be!
+
 </template>
 
 <template name="buttons">
     <ul class="routes">
-        <li><button class="clickChangesPage" data-page='form'>Form</button></li>
-        <li><button class="clickChangesPage" data-page='illnessList'>Illnesses</button></li>
-        <li><button class="clickChangesPage" data-page='home'>Home</button></li>
+        <li><button class="clickChangesPage pure-button" data-page='form'>Add Illness</button></li>
+        <li><button class="clickChangesPage pure-button" data-page='illnessList'>My history</button></li>
+        <li><button class="clickChangesPage pure-button" data-page='home'>Home</button></li>
     </ul>
+</template>
+
+
+
+<template name="bodyPartsLayer">
+    <div class="body-parts">
+        <div class="head">
+            <h1>head</h1>
+        </div>
+        <div class="chest">
+            <h1>chest</h1>
+        </div>
+        <div class="stomache">
+            <h1>stomache</h1>
+        </div>
+        <div class="arm1">
+            <h1>arm</h1>
+        </div>
+        <div class="arm2">
+            <h1>arm</h1>
+        </div>
+        <div class="leg">
+            <h1>legs</h1>
+        </div>
+    </div>
 </template>
 

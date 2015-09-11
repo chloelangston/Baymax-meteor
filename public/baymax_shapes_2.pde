@@ -11,7 +11,7 @@ boolean btn1Over = false;
 boolean btn2 = false;
 boolean btn3 = false;
 boolean optionKeys = false;
-boolean bodyPoints = false;
+boolean bodyPoints = true;
 int pointSize = 20;
 color shapeColor = color(255, 255, 255);
 float eyeScale = 0.5;
@@ -28,7 +28,7 @@ class Big6 {
   Arm a = new Arm();
   Legs l = new Legs();
   Head h = new Head();
-  
+
   void drawMe(){
     h.drawHead();
     h.drawFace();
@@ -48,13 +48,13 @@ class Big6 {
 
 class Spot {
   void drawSpot(){
-    
+
     noStroke();
     //fill(0, 102, 0);
-    
+
     //ellipse(200, 100, 30, 30);
     ellipse(mouseX, mouseY, 30, 30);
-    
+
   }
 }
 
@@ -96,7 +96,7 @@ class Head {
    translate(0, -70);
    scale(0.9, 0.6, 0.7);
    noStroke();
-   
+
    if((bodyPoints == true) && ((sec2-1) % 6 == 0)){
      fill(hColor1);
    }
@@ -106,7 +106,7 @@ class Head {
    sphere(50);
    popMatrix();
   }
-  
+
   void drawFace(){
     pushMatrix();
     translate(-18, -81, 32);
@@ -115,7 +115,7 @@ class Head {
     fill(0);
     sphere(12);
     popMatrix();
-    
+
     pushMatrix();
     translate(20, -81, 32);
     scale(0.5, eyeScale, 0.2);
@@ -123,13 +123,13 @@ class Head {
     fill(0);
     sphere(12);
     popMatrix();
-    
+
     pushMatrix();
     stroke(0);
     translate(0, 0, 32);
     line(-18, -81, 20, -81);
     popMatrix();
-    
+
     int sec = second();
     if (sec % 10 == 0) {
       eyeScale = 0.1;
@@ -157,7 +157,7 @@ class Arm {
    scale(0.5, 1.5, 0.5);
    sphere(90);
    popMatrix();
-   
+
    pushMatrix();
    translate(-120, 100);
    rotateZ(radians(25));
@@ -166,7 +166,7 @@ class Arm {
    sphere(80);
    popMatrix();
  }
- 
+
  void drawHands(){
    pushMatrix();
    translate(-150, 190, 3);
@@ -181,7 +181,7 @@ class Arm {
    sphere(30);
    popMatrix();
  }
- 
+
  void drawFingers(){
    pushMatrix();
    translate(-150, 220, 10);
@@ -195,7 +195,7 @@ class Arm {
    }
    sphere(20);
    popMatrix();
-   
+
    pushMatrix();
    translate(-130, 210, 8);
    rotateZ(radians(-20));
@@ -203,7 +203,7 @@ class Arm {
    sphere(18);
    popMatrix();
  }
- 
+
   void drawArm2(){
    pushMatrix();
    translate(110, 80);
@@ -218,7 +218,7 @@ class Arm {
    scale(0.5, 1.5, 0.5);
    sphere(90);
    popMatrix();
-   
+
    pushMatrix();
    translate(120, 100);
    rotateZ(radians(-25));
@@ -227,7 +227,7 @@ class Arm {
    sphere(80);
    popMatrix();
  }
- 
+
   void drawHands2(){
    pushMatrix();
    translate(150, 190, 3);
@@ -242,7 +242,7 @@ class Arm {
    sphere(30);
    popMatrix();
  }
- 
+
  void drawFingers2(){
    pushMatrix();
    translate(150, 220, 10);
@@ -256,7 +256,7 @@ class Arm {
    }
    sphere(20);
    popMatrix();
-   
+
    pushMatrix();
    translate(130, 210, 8);
    rotateZ(radians(20));
@@ -270,7 +270,7 @@ class Arm {
 class Legs {
  void drawLeg(){
    pushMatrix();
-  //ellipse(70, 200, 40, 50); 
+  //ellipse(70, 200, 40, 50);
   noStroke();
 
    if((bodyPoints == true) && ((sec2-5) % 6 == 0)){
@@ -310,9 +310,9 @@ void mouseDragged(){
 }
 
 void keyPressed() {
-  // The variable "key" always contains the value 
+  // The variable "key" always contains the value
   // of the most recent key pressed.
-  
+
   if (optionKeys == false) {
     if ((key >= 'A' && key <= 'z') || key == ' ') {
       letter = key;
@@ -327,20 +327,20 @@ void keyPressed() {
       words = "";
       askName = "";
       options = "(w) well\n(n) not well\n(v) very bad";
-      
+
     }
   }
-  
+
   else if (optionKeys == true){
     if (key == 'w'){
         options = "That's great";
       }
-      
+
       else if (key == 'n') {
         options = "Where do you not feel well?";
         bodyPoints = true;
       }
-      
+
       else if (key == 'v') {
         options = "Oh no!  Where do you not feel well?";
         bodyPoints = true;
@@ -358,7 +358,7 @@ class Button {
     }
     stroke(255);
     rect(btn1X, btn1Y, rectSize, rectSize);
-    
+
   }
 }
 
@@ -369,47 +369,47 @@ color pointColor;
 boolean pointOver = false;
 
 class BodyPoints {
-  
+
   void drawBodyPoints(){
     float glow_amount = round(map(sin(millis()/150), -1,1, 128,255));
-    
+
     fill(glow_amount,255,0);
     pushMatrix();
     translate(500, 170, 20);
     sphere(pointSize);
     popMatrix();
-    
+
     pushMatrix();
     translate(500, 320, 60);
     sphere(pointSize);
     popMatrix();
-    
+
     pushMatrix();
     translate(500, 370, 140);
     sphere(pointSize);
     popMatrix();
-    
+
     pushMatrix();
     translate(360, 350, 60);
     sphere(pointSize);
     popMatrix();
-    
+
     pushMatrix();
     translate(640, 350, 60);
     sphere(pointSize);
     popMatrix();
-    
+
     pushMatrix();
     translate(450, 540, 60);
     sphere(pointSize);
     popMatrix();
-    
+
     pushMatrix();
     translate(545, 540, 60);
     sphere(pointSize);
     popMatrix();
     //filter(BLUR, 2);
-    
+
   }
 }
 
@@ -448,9 +448,9 @@ float eyeY = height-mouseY;
 
 void draw(){
   sec2 = second();
-  //if (mousePressed) {
+  if (mousePressed) {
     camera(eyeX, eyeY, (height/2) / tan(PI/6), sceneCenterX, sceneCenterY, 0, 0, 1, 0);
-  //}
+  }
   pushMatrix();
   background(0);
   lights();
@@ -459,7 +459,7 @@ void draw(){
   //filter(BLUR,1);
   //s.drawSpot();
   popMatrix();
-  
+
   textSize(36);
   fill(255);
   //text(askName, 50, 120, 540, 300);
@@ -484,7 +484,7 @@ void draw(){
   //  else {
   //    fill(255,0,0);
   //  }
-    
+
   //  rect(pointTransX, pointTransY, pointSize, pointSize);
 }
 
@@ -499,7 +499,7 @@ void mousePressed() {
   if(btn1Over) {
     options = "well";
   }
-  
+
 }
 
 boolean overPoint(int x, int y, int width, int height) {
